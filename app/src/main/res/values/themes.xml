@@ -2,9 +2,12 @@
     <!-- Base application theme. -->
     <style name="Theme.Capstone" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryDark">@color/purple_700</item>
-        <item name="colorAccent">@color/teal_200</item>
+        <item name="colorPrimary">@color/waikawa_gray</item>
+        <item name="colorPrimaryDark">@color/mirage</item>
+        <item name="colorAccent">@color/akaroa</item>
+        <item name="android:textColor">@color/athens_gray</item>
+        <item name="android:background">@color/mirage</item>
+        <item name="colorButtonNormal">@color/waikawa_gray</item>
         <!-- Customize your theme here. -->
     </style>
 
