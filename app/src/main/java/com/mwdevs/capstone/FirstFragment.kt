@@ -12,6 +12,8 @@ import androidx.navigation.fragment.findNavController
 import com.mwdevs.capstone.coins.data.remote.model.AvailableBooksResponse
 import com.mwdevs.capstone.coins.data.remote.model.Payload
 import com.mwdevs.capstone.coins.data.remote.model.ResponseModel
+import com.mwdevs.capstone.coins.domain.model.CoinUIModel
+import com.mwdevs.capstone.coins.domain.use_case.GetBookListUseCase
 import com.mwdevs.capstone.coins.presentation.adapter.BookListAdapter
 import com.mwdevs.capstone.databinding.FragmentFirstBinding
 import com.mwdevs.capstone.utils.APIServiceBuilder
@@ -46,9 +48,9 @@ class FirstFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.rvCoinsList.adapter = adapter
-        val repo = APIServiceBuilder()
-        val responseLiveData: LiveData<ResponseHandler<List<Payload>?>> = liveData{
-            emit(repo.getTest())
+        val repo = GetBookListUseCase()
+        val responseLiveData: LiveData<ResponseHandler<List<CoinUIModel>?>> = liveData{
+            emit(repo.invoke())
         }
         responseLiveData.observe(viewLifecycleOwner){
             Log.e("response", it?.toString() ?: "error")

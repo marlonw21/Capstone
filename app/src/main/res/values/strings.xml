@@ -12,4 +12,22 @@
 
 <!-- ProperyNames -> For Animation   -->
     <string name="background_color_property">backgroundColor</string>
+
+
+<!--  Coin Names  -->
+    <string name="btc_name">Bitcoin</string>
+    <string name="eth_name">Ethereum</string>
+    <string name="xrp_name">XRP</string>
+    <string name="ltc_name">Litecoin</string>
+    <string name="bch_name">Bitcoin Cash</string>
+    <string name="tusd_name">TUSD</string>
+    <string name="mana_name">MANA</string>
+    <string name="dai_name">Dai</string>
+    <string name="mxn_name">MXN</string>
+    <string name="ars_name">ARS</string>
+    <string name="brl_name">BRL</string>
+    <string name="usd_name">USD</string>
+    <string name="bat_name">BAT</string>
+    <string name="unknown">Unknown</string>
+
 </resources>
