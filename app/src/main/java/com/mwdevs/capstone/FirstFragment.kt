@@ -47,7 +47,7 @@ class FirstFragment : Fragment() {
 
         binding.rvCoinsList.adapter = adapter
         val repo = APIServiceBuilder()
-        val responseLiveData: LiveData<ResponseHandler<ResponseModel<List<Payload>?>>> = liveData{
+        val responseLiveData: LiveData<ResponseHandler<List<Payload>?>> = liveData{
             emit(repo.getTest())
         }
         responseLiveData.observe(viewLifecycleOwner){

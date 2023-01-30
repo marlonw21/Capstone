@@ -16,9 +16,9 @@ data class ErrorResponse(
     @SerializedName("code")
     @Expose
     var code: Int? = null,
-    @SerializedName("message")
-    @Expose
-    var message: String? = null,
+//    @SerializedName("message")
+//    @Expose
+//    var message: String? = null,
     @SerializedName("url")
     @Expose
     var url: String? = null,
