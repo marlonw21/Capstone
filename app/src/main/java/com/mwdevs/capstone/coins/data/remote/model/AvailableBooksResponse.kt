@@ -3,7 +3,7 @@ package com.mwdevs.capstone.coins.data.remote.model
 import com.google.gson.annotations.SerializedName
 
 data class AvailableBooksResponse(
-    val success: Boolean,
+//    val success: Boolean,
     val payload: List<Payload>,
 )
 data class ResponseModel<T>(
@@ -12,7 +12,7 @@ data class ResponseModel<T>(
     @SerializedName("error")
     var errorBody: ErrorBody?= null,
     @SerializedName("payload")
-    var successBody: T
+    var successBody: T?
 )
 data class ErrorBody(
     @SerializedName("code")

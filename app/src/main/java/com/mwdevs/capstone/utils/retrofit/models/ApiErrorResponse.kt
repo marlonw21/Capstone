@@ -10,6 +10,9 @@ data class ApiErrorResponse(
     val response: Response<ErrorResponse>?=null
 )
 data class ErrorResponse(
+    @SerializedName("protocol")
+    @Expose
+    var protocol: String? = null,
     @SerializedName("code")
     @Expose
     var code: Int? = null,
@@ -19,9 +22,7 @@ data class ErrorResponse(
     @SerializedName("url")
     @Expose
     var url: String? = null,
-    @SerializedName("protocol")
-    @Expose
-    var protocol: String? = null,
+
 )
 
 

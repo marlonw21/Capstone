@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.navigation.fragment.findNavController
 import com.mwdevs.capstone.coins.data.remote.model.AvailableBooksResponse
+import com.mwdevs.capstone.coins.data.remote.model.Payload
 import com.mwdevs.capstone.coins.data.remote.model.ResponseModel
 import com.mwdevs.capstone.coins.presentation.adapter.BookListAdapter
 import com.mwdevs.capstone.databinding.FragmentFirstBinding
@@ -46,14 +47,14 @@ class FirstFragment : Fragment() {
 
         binding.rvCoinsList.adapter = adapter
         val repo = APIServiceBuilder()
-        val responseLiveData: LiveData<ResponseHandler<AvailableBooksResponse?>> = liveData{
+        val responseLiveData: LiveData<ResponseHandler<ResponseModel<List<Payload>?>>> = liveData{
             emit(repo.getTest())
         }
         responseLiveData.observe(viewLifecycleOwner){
             Log.e("response", it?.toString() ?: "error")
             when (it){
                 is ResponseHandler.Success ->{
-                    Log.e("successs", it.data?.payload.toString())
+                    Log.e("successs", it.data?.successBody.toString())
                 }
                 is ResponseHandler.Error ->{
 
@@ -64,7 +65,7 @@ class FirstFragment : Fragment() {
 //            }else{
 //               val a = it.errorBody()
 //            }
-            adapter.submitList(it.data?.payload)
+            adapter.submitList(it.data?.successBody)
         }
     }
 
