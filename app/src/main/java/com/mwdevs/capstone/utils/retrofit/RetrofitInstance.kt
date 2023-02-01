@@ -9,20 +9,27 @@ import com.mwdevs.capstone.utils.retrofit.models.ResponseHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 abstract class RetrofitInstance<T : Any> {
-    val ok = OkHttpClient()
 
     companion object {
         private const val BASE_URL = "https://api.bitso.com/v3/"
         fun getRetrofitInstance(): Retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
-            .client(OkHttpClient.Builder().build())
+            .client(OkHttpClient.Builder()
+                .addInterceptor(getInterceptor())
+                .build())
             .build()
+        private fun getInterceptor():HttpLoggingInterceptor{
+            val logging = HttpLoggingInterceptor()
+            logging.level = HttpLoggingInterceptor.Level.BODY
+            return logging
+        }
     }
 
     protected var client = getRetrofitInstance()

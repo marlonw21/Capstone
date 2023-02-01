@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.navigation.fragment.findNavController
-import com.mwdevs.capstone.coins.data.remote.model.AvailableBooksResponse
 import com.mwdevs.capstone.coins.data.remote.model.Payload
 import com.mwdevs.capstone.coins.data.remote.model.ResponseModel
 import com.mwdevs.capstone.coins.domain.model.CoinUIModel
@@ -39,7 +38,10 @@ class FirstFragment : Fragment() {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         adapter = BookListAdapter {
             Log.e("click", it)
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+            findNavController()
+                .navigate(R.id.action_FirstFragment_to_SecondFragment, Bundle().apply {
+                    this.putString("book", it)
+                })
         }
         return binding.root
     }
@@ -62,11 +64,6 @@ class FirstFragment : Fragment() {
 
                 }
             }
-//            if (it.isSuccessful){
-//                val a = it.body()
-//            }else{
-//               val a = it.errorBody()
-//            }
             adapter.submitList(it.data?.successBody)
         }
     }

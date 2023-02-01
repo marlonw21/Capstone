@@ -4,7 +4,6 @@ import android.util.Log
 import com.mwdevs.capstone.R
 import com.mwdevs.capstone.coins.data.remote.model.Payload
 import com.mwdevs.capstone.coins.data.remote.model.ResponseModel
-import com.mwdevs.capstone.coins.domain.delegate.BooksEnum
 import com.mwdevs.capstone.coins.domain.model.CoinUIModel
 import com.mwdevs.capstone.utils.APIServiceBuilder
 import com.mwdevs.capstone.utils.retrofit.models.ResponseHandler
@@ -49,18 +48,6 @@ class GetBookListUseCase {
     }
 }
 
-private fun getCoinName(value:String): String = when(value){
-    "btc"->"Bitcoin"
-    "eth"-> "Ethereum"
-    "xrp"-> "XRP"
-    "ltc"-> "Litecoin"
-    "bch"-> "Bitcoin Cash"
-    "tusd"-> "TUSD"
-    "mana"-> "MANA"
-    "dai"-> "Dai"
-    else->""
-}
-
 private fun getCoinResource(value: BooksEnum): Map<Int, List<Int>> =
     when (value){
         BooksEnum.btc_mxn -> mapOf(R.string.btc_name to listOf(R.drawable.ic_bitcoin_logo, R.drawable.ic_flag_mexico))
@@ -96,3 +83,42 @@ private fun getCoinResource(value: BooksEnum): Map<Int, List<Int>> =
         BooksEnum.ltc_mxn -> mapOf(R.string.ltc_name to listOf(R.drawable.ic_litecoin_logo, R.drawable.ic_flag_mexico))
         else-> mapOf(R.string.unknown to  listOf(R.drawable.ic_help_not_found, R.drawable.ic_help_not_found))
     }
+enum class BooksEnum{
+    btc_mxn,
+    eth_btc,
+    eth_mxn,
+    xrp_btc,
+    xrp_mxn,
+    ltc_btc,
+    bch_btc,
+    bch_mxn,
+    tusd_bt,
+    tusd_mx,
+    tusd_btc,
+    tusd_mxn,
+    mana_bt,
+    mana_mx,
+    bat_btc,
+    bat_mxn,
+    btc_ars,
+    btc_dai,
+    dai_mxn,
+    xrp_usd,
+    mana_btc,
+    eth_usd,
+    dai_ars,
+    mana_usd,
+    btc_brl,
+    eth_ars,
+    eth_brl,
+    btc_usd,// usdt -> Tether
+    usd_mxn,
+    usd_ars,
+    btc_usdt,
+    usd_brl,
+    mana_mxn,
+    mana_us,
+    ltc_usd,
+    ltc_mxn;
+}
+

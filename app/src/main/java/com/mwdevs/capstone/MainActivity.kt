@@ -14,7 +14,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.recyclerview.widget.AsyncDifferConfig
-import com.mwdevs.capstone.coins.data.remote.model.AvailableBooksResponse
 import com.mwdevs.capstone.databinding.ActivityMainBinding
 import com.mwdevs.capstone.utils.APIServiceBuilder
 import retrofit2.Response

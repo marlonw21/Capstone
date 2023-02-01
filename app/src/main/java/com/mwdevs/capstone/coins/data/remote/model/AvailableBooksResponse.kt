@@ -2,10 +2,6 @@ package com.mwdevs.capstone.coins.data.remote.model
 
 import com.google.gson.annotations.SerializedName
 
-data class AvailableBooksResponse(
-//    val success: Boolean,
-    val payload: List<Payload>,
-)
 data class ResponseModel<T>(
     @SerializedName("success")
     val success: Boolean,
