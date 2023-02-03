@@ -7,21 +7,80 @@
     tools:context=".coins.presentation.BookDetailFragment">
 
     <TextView
-        android:id="@+id/textview_second"
+        android:id="@+id/tv_last_price"
+        android:text="Last Price"
+        android:padding="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/button_second"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button_second"
+    <TextView
+        android:text="Lowest Price"
+        android:padding="8dp"
+        android:id="@+id/tv_lowest_Price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/previous"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textview_second" />
+        app:layout_constraintTop_toBottomOf="@id/tv_last_price"
+        />
+    <TextView
+        android:id="@+id/tv_high_price"
+        android:text="Highest Price"
+        android:padding="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_lowest_Price"
+        />
+
+    <View
+        android:id="@+id/view_divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/waikawa_gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_high_price"
+        />
+    <TextView
+        android:padding="8dp"
+        android:id="@+id/tv_bids"
+        android:text="Bids"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_divider"
+        app:layout_constraintEnd_toEndOf="@id/rv_bids_list"
+        />
+    <TextView
+        android:padding="8dp"
+        android:id="@+id/tv_asks"
+        android:text="Asks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_divider"
+        app:layout_constraintStart_toStartOf="@id/rv_asks_list"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_bids_list"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_bids"
+        app:layout_constraintEnd_toStartOf="@id/rv_asks_list"
+        tools:listitem="@layout/asks_bids_item"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_asks_list"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_asks"
+        app:layout_constraintStart_toEndOf="@id/rv_bids_list"
+        tools:listitem="@layout/asks_bids_item"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

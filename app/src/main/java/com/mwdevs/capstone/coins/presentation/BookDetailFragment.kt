@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import com.mwdevs.capstone.R
+import androidx.fragment.app.activityViewModels
+import com.google.android.material.snackbar.Snackbar
+import com.mwdevs.capstone.coins.presentation.adapter.AskBidsAdapter
+import com.mwdevs.capstone.coins.presentation.viewModel.BookDetailViewModel
 import com.mwdevs.capstone.databinding.FragmentSecondBinding
 
 /**
@@ -15,6 +18,9 @@ import com.mwdevs.capstone.databinding.FragmentSecondBinding
 class BookDetailFragment : Fragment() {
 
     private var _binding: FragmentSecondBinding? = null
+    private val vModel: BookDetailViewModel by activityViewModels()
+    private lateinit var asksAdaper: AskBidsAdapter
+    private lateinit var bidsAdaper: AskBidsAdapter
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -26,47 +32,50 @@ class BookDetailFragment : Fragment() {
     ): View? {
 
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
+        asksAdaper = AskBidsAdapter()
+        bidsAdaper = AskBidsAdapter()
         return binding.root
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setAdapters()
+        callApi()
+        initObservers()
+    }
 
-        binding.buttonSecond.setOnClickListener {
-            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+    private fun setAdapters() = binding.apply {
+        rvAsksList.adapter = asksAdaper
+        rvBidsList.adapter = bidsAdaper
+    }
+
+    private fun callApi(){
+        vModel.getBookDetail(arguments?.getString("book") ?: "")
+        vModel.getTicker(arguments?.getString("book") ?: "")
+
+    }
+
+    private fun initObservers(){
+        vModel.bidsModel.observe(viewLifecycleOwner){
+            bidsAdaper.submitList(it)
         }
-//        val repo = GetBookDetailUseCase()
-//        val repo2 = APIServiceBuilder()
-//        val responseLiveData: LiveData<ResponseHandler<BookDetailsResponse?>> = liveData{
-//            emit(repo.invoke(arguments?.getString("book") ?: ""))
-//        }
-//        val responseTickerLiveData: LiveData<ResponseHandler<TickerResponse?>> = liveData{
-//            emit(repo2.getTest3(arguments?.getString("book") ?: ""))
-//        }
-//        responseTickerLiveData.observe(viewLifecycleOwner){
-//            when(it){
-//                is ResponseHandler.Success ->{
-//                    Log.e("ticker", it.data?.successBody.toString())
-//                }
-//                is ResponseHandler.Error ->{
-//                    Log.e("erreo", it?.data?.errorBody.toString())
-//                }
-//            }
-//        }
-//
-//
-//        responseLiveData.observe(viewLifecycleOwner){
-//            when(it){
-//                is ResponseHandler.Success ->{
-//                    Log.e("bookdetail", it.data?.successBody.toString())
-//                }
-//                is ResponseHandler.Error ->{
-//                    Log.e("erreo", it?.data?.errorBody.toString())
-//                }
-//            }
-//        }
-
+        vModel.askModel.observe(viewLifecycleOwner){
+            asksAdaper.submitList(it)
+        }
+        vModel.tickerModel.observe(viewLifecycleOwner){
+            val responseData = it?.data?.successBody
+            binding.apply {
+                tvHighPrice.text = "Highest Price: ${responseData?.high}"
+                tvLastPrice.text = "Last Price: ${responseData?.last}"  //TODO utilizar place string holders
+                tvLowestPrice.text = "Lowest Price: ${responseData?.low}"
+            }
+        }
+        vModel.errorHandler.observe(viewLifecycleOwner){
+            it?.let {
+                Toast.makeText(requireContext(), "An Error Ocurred", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onDestroyView() {
