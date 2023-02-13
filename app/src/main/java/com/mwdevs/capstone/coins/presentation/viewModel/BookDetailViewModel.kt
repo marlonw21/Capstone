@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mwdevs.capstone.coins.data.remote.model.ErrorBody
-import com.mwdevs.capstone.coins.data.remote.model.TickerResponse
+import com.mwdevs.capstone.coins.data.remote.model.TickerResponseDTO
 import com.mwdevs.capstone.coins.data.repository.BooksRepositoryImpl
 import com.mwdevs.capstone.coins.domain.model.AskBidsModel
 import com.mwdevs.capstone.coins.domain.use_case.GetBookDetailUseCase
@@ -22,8 +22,8 @@ class BookDetailViewModel(
         val askModel: LiveData<List<AskBidsModel>?> = _asksModel
     private val _bidsModel = MutableLiveData<List<AskBidsModel>?>()
         val bidsModel: LiveData<List<AskBidsModel>?> = _bidsModel
-    private val _tickerModel = MutableLiveData<ResponseHandler<TickerResponse?>>() //TODO falta el model de UI
-        val tickerModel: LiveData<ResponseHandler<TickerResponse?>> = _tickerModel
+    private val _tickerModel = MutableLiveData<ResponseHandler<TickerResponseDTO>>() //TODO falta el model de UI
+        val tickerModel: LiveData<ResponseHandler<TickerResponseDTO>> = _tickerModel
     private val _errorHandler = MutableLiveData<ErrorBody?>()
         val errorHandler: LiveData<ErrorBody?> = _errorHandler
 

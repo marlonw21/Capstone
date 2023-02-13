@@ -6,7 +6,7 @@
 
         <variable
             name="book_model"
-            type="com.mwdevs.capstone.coins.data.remote.model.Payload" />
+            type="com.mwdevs.capstone.coins.data.remote.model.BookDTO" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

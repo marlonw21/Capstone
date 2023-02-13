@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.mwdevs.capstone.R
 import com.mwdevs.capstone.coins.domain.model.AskBidsModel
 import com.mwdevs.capstone.databinding.AsksBidsItemBinding
 
@@ -13,8 +14,8 @@ class AskBidsAdapter :
 
     inner class ViewHolder(private val binding: AsksBidsItemBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(model: AskBidsModel) = binding.apply {
-            tvAmount.text = "Amount: ${model.amount}"
-            tvPrice.text = "Price: ${model.price}"
+            tvAmount.text = binding.root.context.getString(R.string.amount_text, model.amount)
+            tvPrice.text = binding.root.context.getString(R.string.price_text, model.price)
         }
     }
 
@@ -28,7 +29,7 @@ class AskBidsAdapter :
     }
 }
 
-abstract class GenericDiffUtilCallback<T> : DiffUtil.ItemCallback<T>() //TODO aplicar este generico en todos los adapter
+abstract class GenericDiffUtilCallback<T> : DiffUtil.ItemCallback<T>()
 
 class AskBidsDiffUtilCallback: GenericDiffUtilCallback<AskBidsModel>() {
     override fun areItemsTheSame(oldItem: AskBidsModel, newItem: AskBidsModel): Boolean =

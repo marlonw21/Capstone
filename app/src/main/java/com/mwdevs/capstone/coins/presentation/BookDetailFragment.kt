@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.google.android.material.snackbar.Snackbar
+import com.mwdevs.capstone.R
 import com.mwdevs.capstone.coins.presentation.adapter.AskBidsAdapter
 import com.mwdevs.capstone.coins.presentation.viewModel.BookDetailViewModel
 import com.mwdevs.capstone.databinding.FragmentSecondBinding
@@ -19,8 +19,8 @@ class BookDetailFragment : Fragment() {
 
     private var _binding: FragmentSecondBinding? = null
     private val vModel: BookDetailViewModel by activityViewModels()
-    private lateinit var asksAdaper: AskBidsAdapter
-    private lateinit var bidsAdaper: AskBidsAdapter
+    private lateinit var asksAdapter: AskBidsAdapter
+    private lateinit var bidsAdapter: AskBidsAdapter
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -29,11 +29,11 @@ class BookDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
-        asksAdaper = AskBidsAdapter()
-        bidsAdaper = AskBidsAdapter()
+        asksAdapter = AskBidsAdapter()
+        bidsAdapter = AskBidsAdapter()
         return binding.root
 
     }
@@ -46,8 +46,8 @@ class BookDetailFragment : Fragment() {
     }
 
     private fun setAdapters() = binding.apply {
-        rvAsksList.adapter = asksAdaper
-        rvBidsList.adapter = bidsAdaper
+        rvAsksList.adapter = asksAdapter
+        rvBidsList.adapter = bidsAdapter
     }
 
     private fun callApi(){
@@ -58,22 +58,22 @@ class BookDetailFragment : Fragment() {
 
     private fun initObservers(){
         vModel.bidsModel.observe(viewLifecycleOwner){
-            bidsAdaper.submitList(it)
+            bidsAdapter.submitList(it)
         }
         vModel.askModel.observe(viewLifecycleOwner){
-            asksAdaper.submitList(it)
+            asksAdapter.submitList(it)
         }
         vModel.tickerModel.observe(viewLifecycleOwner){
             val responseData = it?.data?.successBody
             binding.apply {
-                tvHighPrice.text = "Highest Price: ${responseData?.high}"
-                tvLastPrice.text = "Last Price: ${responseData?.last}"  //TODO utilizar place string holders
-                tvLowestPrice.text = "Lowest Price: ${responseData?.low}"
+                tvHighPrice.text = root.context.getString(R.string.highest_price_text, responseData?.high)
+                tvLastPrice.text = root.context.getString(R.string.last_price_text, responseData?.last)
+                tvLowestPrice.text = root.context.getString(R.string.lowest_price_text, responseData?.low)
             }
         }
         vModel.errorHandler.observe(viewLifecycleOwner){
             it?.let {
-                Toast.makeText(requireContext(), "An Error Ocurred", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), binding.root.context.getString(R.string.general_error), Toast.LENGTH_SHORT).show()
             }
         }
     }

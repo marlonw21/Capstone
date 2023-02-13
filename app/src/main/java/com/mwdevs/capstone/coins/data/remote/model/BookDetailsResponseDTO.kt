@@ -2,15 +2,15 @@ package com.mwdevs.capstone.coins.data.remote.model
 
 import com.mwdevs.capstone.coins.domain.model.AskBidsModel
 
-data class BookDetailsResponse(
-    val asks: List<Ask>,
-    val bids: List<Bid>,
+data class BookDetailsResponseDTO(
+    val asks: List<AskDTO>,
+    val bids: List<BidDTO>,
     val sequence: String,
     val updated_at: String
 ){
     fun asksToUIModel(): List<AskBidsModel> {
         val asks = mutableListOf<AskBidsModel>()
-        this.asks.forEach { ask ->
+        this.asks.map { ask ->
             asks.add(
                 AskBidsModel(
                     amount = ask.amount,

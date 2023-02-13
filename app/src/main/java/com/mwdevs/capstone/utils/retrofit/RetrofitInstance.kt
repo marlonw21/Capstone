@@ -3,8 +3,6 @@ package com.mwdevs.capstone.utils.retrofit
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonSyntaxException
 import com.mwdevs.capstone.coins.data.remote.model.ResponseModel
-import com.mwdevs.capstone.utils.fromJsonToClass
-import com.mwdevs.capstone.utils.retrofit.models.ErrorResponse
 import com.mwdevs.capstone.utils.retrofit.models.ResponseHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -36,8 +34,8 @@ abstract class RetrofitInstance<T : Any> {
     protected abstract var api: T
 
     suspend inline fun <T> callService(
-        crossinline cb: suspend () -> ResponseModel<T?>
-    ): ResponseHandler<T?> {
+        crossinline cb: suspend () -> ResponseModel<T>
+    ): ResponseHandler<T> {
         return try {
             val response = withContext(Dispatchers.IO) { cb.invoke() }
             response.let {
@@ -50,25 +48,19 @@ abstract class RetrofitInstance<T : Any> {
                     )
             }
         } catch (e: Exception) {
-            withContext(Dispatchers.IO) {
-                when (e) {
-                    is HttpException -> {
-                        val error2 = e.response()!!.raw().toString().replace("Response", "")
-                        val exception = error2.fromJsonToClass(ErrorResponse::class.java)
-                        ResponseHandler.Error(
-                            errorBody = exception
-                        )
-                    }
-                    is JsonSyntaxException -> {
-                        ResponseHandler.Error(
-                            errorBody = ErrorResponse()
-                        )
-                    }
-                    else -> ResponseHandler.Error(
-                        errorBody = ErrorResponse()
-                    )
-                }
-            }
+            ResponseHandler.Error(
+                errorBody = e.message
+            )
+        }
+        catch (e: HttpException){
+            ResponseHandler.Error(
+                errorBody = e.message
+            )
+        }
+        catch (e: JsonSyntaxException){
+            ResponseHandler.Error(
+                errorBody = e.message
+            )
         }
     }
 }

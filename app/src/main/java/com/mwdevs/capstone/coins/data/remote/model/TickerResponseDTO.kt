@@ -1,6 +1,6 @@
 package com.mwdevs.capstone.coins.data.remote.model
 
-data class TickerResponse(
+data class TickerResponseDTO(
     val ask: String,
     val bid: String,
     val book: String,
