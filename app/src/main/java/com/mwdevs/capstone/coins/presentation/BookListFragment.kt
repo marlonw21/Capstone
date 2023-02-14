@@ -50,8 +50,8 @@ class BookListFragment : Fragment() {
         vModel.getBooks()
         vModel.bookList.observe(viewLifecycleOwner){ response ->
             when(response){
-                is ResponseHandler.Success -> adapter.submitList(response.data?.successBody)
-                is ResponseHandler.Error -> Log.e("Error", response.data?.errorBody?.toString() ?: "-")
+                is ResponseHandler.Success -> adapter.submitList(response.data)
+                is ResponseHandler.Error -> Log.e("Error", response.errorMsg ?: "-")
             }
 
         }

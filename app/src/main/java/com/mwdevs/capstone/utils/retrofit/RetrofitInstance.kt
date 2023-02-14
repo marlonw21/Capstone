@@ -39,27 +39,29 @@ abstract class RetrofitInstance<T : Any> {
         return try {
             val response = withContext(Dispatchers.IO) { cb.invoke() }
             response.let {
-                if (it.success)
-                    ResponseHandler.Success(it)
+                if (it.success && it.successBody != null)
+                    ResponseHandler.Success(
+                        it.successBody!!
+                    )
                 else
                     ResponseHandler.Error(
-                        it,
-                        errorBody = null
+                        data = null,
+                        errorMsg = response.errorBody?.message
                     )
             }
         } catch (e: Exception) {
             ResponseHandler.Error(
-                errorBody = e.message
+                errorMsg = e.message
             )
         }
         catch (e: HttpException){
             ResponseHandler.Error(
-                errorBody = e.message
+                errorMsg = e.message
             )
         }
         catch (e: JsonSyntaxException){
             ResponseHandler.Error(
-                errorBody = e.message
+                errorMsg = e.message
             )
         }
     }

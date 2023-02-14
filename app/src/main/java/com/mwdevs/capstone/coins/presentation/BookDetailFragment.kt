@@ -64,7 +64,7 @@ class BookDetailFragment : Fragment() {
             asksAdapter.submitList(it)
         }
         vModel.tickerModel.observe(viewLifecycleOwner){
-            val responseData = it?.data?.successBody
+            val responseData = it?.data
             binding.apply {
                 tvHighPrice.text = root.context.getString(R.string.highest_price_text, responseData?.high)
                 tvLastPrice.text = root.context.getString(R.string.last_price_text, responseData?.last)
