@@ -12,10 +12,10 @@ import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-abstract class RetrofitInstance<T : Any> {
+abstract class RetrofitInstance {
 
     companion object {
-        private const val BASE_URL = "https://api.bitso.com/v3/"
+        const val BASE_URL = "https://api.bitso.com/v3/"
         fun getRetrofitInstance(): Retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
@@ -23,15 +23,12 @@ abstract class RetrofitInstance<T : Any> {
                 .addInterceptor(getInterceptor())
                 .build())
             .build()
-        private fun getInterceptor():HttpLoggingInterceptor{
+        fun getInterceptor():HttpLoggingInterceptor{
             val logging = HttpLoggingInterceptor()
             logging.level = HttpLoggingInterceptor.Level.BODY
             return logging
         }
     }
-
-    protected var client = getRetrofitInstance()
-    protected abstract var api: T
 
     suspend inline fun <T> callService(
         crossinline cb: suspend () -> ResponseModel<T>

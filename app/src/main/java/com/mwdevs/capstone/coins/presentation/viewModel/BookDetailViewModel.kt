@@ -10,11 +10,14 @@ import com.mwdevs.capstone.coins.domain.model.AskBidsModel
 import com.mwdevs.capstone.coins.domain.use_case.GetBookDetailUseCase
 import com.mwdevs.capstone.coins.domain.use_case.GetTickerUseCase
 import com.mwdevs.capstone.utils.retrofit.models.ResponseHandler
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class BookDetailViewModel(
-    private val getTicker: GetTickerUseCase = GetTickerUseCase(BooksRepositoryImpl()),
-    private val getBookDetail: GetBookDetailUseCase = GetBookDetailUseCase(BooksRepositoryImpl())
+@HiltViewModel
+class BookDetailViewModel @Inject constructor(
+    private val getTicker: GetTickerUseCase,
+    private val getBookDetail: GetBookDetailUseCase
 ): ViewModel() {
 
     private val _asksModel = MutableLiveData<List<AskBidsModel>?>()

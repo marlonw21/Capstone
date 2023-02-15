@@ -13,10 +13,13 @@ import com.mwdevs.capstone.coins.presentation.adapter.BookListAdapter
 import com.mwdevs.capstone.coins.presentation.viewModel.BookListViewModel
 import com.mwdevs.capstone.databinding.FragmentFirstBinding
 import com.mwdevs.capstone.utils.retrofit.models.ResponseHandler
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
+
+@AndroidEntryPoint
 class BookListFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null

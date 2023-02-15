@@ -6,8 +6,9 @@ import com.mwdevs.capstone.coins.data.remote.model.BookDTO
 import com.mwdevs.capstone.coins.domain.model.CoinUIModel
 import com.mwdevs.capstone.coins.domain.repository.BooksRepository
 import com.mwdevs.capstone.utils.retrofit.models.ResponseHandler
+import javax.inject.Inject
 
-class GetBookListUseCase(private val repository: BooksRepository) {
+class GetBookListUseCase @Inject constructor(private val repository: BooksRepository) {
     suspend operator fun invoke(): ResponseHandler<List<CoinUIModel>?>{
         val response = repository.getBooks()
         if (response is ResponseHandler.Success){
@@ -42,7 +43,7 @@ class GetBookListUseCase(private val repository: BooksRepository) {
     }
 }
 
-private fun getCoinResource(value: BooksEnum): Map<Int, List<Int>> =
+fun getCoinResource(value: BooksEnum): Map<Int, List<Int>> =
     when (value){
         BooksEnum.btc_mxn -> mapOf(R.string.btc_name to listOf(R.drawable.ic_bitcoin_logo, R.drawable.ic_flag_mexico))
         BooksEnum.eth_btc -> mapOf(R.string.eth_name to listOf(R.drawable.ic_ethereum_logo, R.drawable.ic_bitcoin_logo))

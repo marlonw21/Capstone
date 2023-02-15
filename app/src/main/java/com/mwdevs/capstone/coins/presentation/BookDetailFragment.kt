@@ -11,10 +11,13 @@ import com.mwdevs.capstone.R
 import com.mwdevs.capstone.coins.presentation.adapter.AskBidsAdapter
 import com.mwdevs.capstone.coins.presentation.viewModel.BookDetailViewModel
 import com.mwdevs.capstone.databinding.FragmentSecondBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
+
+@AndroidEntryPoint
 class BookDetailFragment : Fragment() {
 
     private var _binding: FragmentSecondBinding? = null

@@ -3,12 +3,12 @@ package com.mwdevs.capstone.coins.domain.use_case
 import com.mwdevs.capstone.coins.domain.model.AskBidsModel
 import com.mwdevs.capstone.coins.domain.repository.BooksRepository
 import com.mwdevs.capstone.utils.retrofit.models.ResponseHandler
+import javax.inject.Inject
 
-class GetBookDetailUseCase(private val repository: BooksRepository) {
+class GetBookDetailUseCase @Inject constructor(private val repository: BooksRepository) {
 
     suspend operator fun invoke(book: String): ResponseHandler<Pair<List<AskBidsModel>?, List<AskBidsModel>?>>{
-        val response = repository.getBookDetail(book)
-        return when (response){
+        return when (val response = repository.getBookDetail(book)){
             is ResponseHandler.Success ->{
                 ResponseHandler.Success(
 //                    data = ResponseModel(
