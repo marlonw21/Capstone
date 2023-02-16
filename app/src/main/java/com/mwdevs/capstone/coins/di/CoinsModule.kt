@@ -1,5 +1,8 @@
 package com.mwdevs.capstone.coins.di
 
+import android.app.Application
+import androidx.room.Room
+import com.mwdevs.capstone.coins.data.local.BooksDatabase
 import com.mwdevs.capstone.coins.data.remote.BitsoServices
 import com.mwdevs.capstone.coins.data.repository.BooksRepositoryImpl
 import com.mwdevs.capstone.coins.domain.repository.BooksRepository
@@ -35,9 +38,19 @@ object CoinsModule {
             .create()
     }
 
+    @Singleton
+    @Provides
+    fun provideBooksDatabase(app: Application): BooksDatabase =
+        Room.databaseBuilder(
+            app,
+            BooksDatabase::class.java,
+            "books.db"
+        ).build()
+
+
     @Provides
     @Singleton
-    fun provideBooksRepository(api: BitsoServices): BooksRepository = BooksRepositoryImpl(api)
+    fun provideBooksRepository(api: BitsoServices, db: BooksDatabase): BooksRepository = BooksRepositoryImpl(api, db)
 
     @Provides
     @Singleton

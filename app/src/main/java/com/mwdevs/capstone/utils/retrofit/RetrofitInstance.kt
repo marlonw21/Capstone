@@ -2,6 +2,7 @@ package com.mwdevs.capstone.utils.retrofit
 
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonSyntaxException
+import com.mwdevs.capstone.coins.data.local.BooksDatabase
 import com.mwdevs.capstone.coins.data.remote.model.ResponseModel
 import com.mwdevs.capstone.utils.retrofit.models.ResponseHandler
 import kotlinx.coroutines.Dispatchers
@@ -11,6 +12,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.net.UnknownHostException
 
 abstract class RetrofitInstance {
 
@@ -57,6 +59,11 @@ abstract class RetrofitInstance {
             )
         }
         catch (e: JsonSyntaxException){
+            ResponseHandler.Error(
+                errorMsg = e.message
+            )
+        }
+        catch (e: UnknownHostException){
             ResponseHandler.Error(
                 errorMsg = e.message
             )

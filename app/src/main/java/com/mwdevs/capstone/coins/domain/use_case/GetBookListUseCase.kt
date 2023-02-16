@@ -2,7 +2,7 @@ package com.mwdevs.capstone.coins.domain.use_case
 
 import android.util.Log
 import com.mwdevs.capstone.R
-import com.mwdevs.capstone.coins.data.remote.model.BookDTO
+import com.mwdevs.capstone.coins.data.local.BooksEntity
 import com.mwdevs.capstone.coins.domain.model.CoinUIModel
 import com.mwdevs.capstone.coins.domain.repository.BooksRepository
 import com.mwdevs.capstone.utils.retrofit.models.ResponseHandler
@@ -21,11 +21,12 @@ class GetBookListUseCase @Inject constructor(private val repository: BooksReposi
 
         }
         return ResponseHandler.Error(
+            data = mapToUiModel(response)?.ifEmpty { null },
             errorMsg = response.errorMsg
         )
     }
 
-    private fun mapToUiModel(response: ResponseHandler.Success<List<BookDTO>>): List<CoinUIModel>?{
+    private fun mapToUiModel(response: ResponseHandler<List<BooksEntity>>): List<CoinUIModel>?{
         return response.data?.take(29)?.map { model ->
             try {
                 CoinUIModel(
