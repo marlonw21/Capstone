@@ -32,11 +32,11 @@ abstract class RetrofitInstance {
         }
     }
 
-    suspend inline fun <T> callService(
-        crossinline cb: suspend () -> ResponseModel<T>
+    inline fun <T> callService(
+        cb: () -> ResponseModel<T>
     ): ResponseHandler<T> {
         return try {
-            val response = withContext(Dispatchers.IO) { cb.invoke() }
+            val response =  cb.invoke()
             response.let {
                 if (it.success && it.successBody != null)
                     ResponseHandler.Success(

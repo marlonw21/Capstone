@@ -8,15 +8,19 @@ import com.mwdevs.capstone.coins.data.remote.model.TickerResponseDTO
 import com.mwdevs.capstone.coins.domain.repository.BooksRepository
 import com.mwdevs.capstone.utils.retrofit.RetrofitInstance
 import com.mwdevs.capstone.utils.retrofit.models.ResponseHandler
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class BooksRepositoryImpl @Inject constructor(
     private val api: BitsoServices,
-    private val db: BooksDatabase
+    private val db: BooksDatabase,
+    private val dispatcher: CoroutineDispatcher
 ) : RetrofitInstance(), BooksRepository {
     private val dao = db.dao
 
-    override suspend fun getBooks(): ResponseHandler<List<BooksEntity>> =
+    override suspend fun getBooks(): ResponseHandler<List<BooksEntity>> = withContext(dispatcher){
         when (val response = callService { api.getAvailableBooks() }) {
             is ResponseHandler.Success -> {
                 response.data?.let { bookList ->
@@ -33,6 +37,7 @@ class BooksRepositoryImpl @Inject constructor(
                 )
             }
         }
+    }
 
     override suspend fun getTicker(book: String): ResponseHandler<TickerResponseDTO> =
         callService { api.getTicker(book) }
