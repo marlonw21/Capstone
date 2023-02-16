@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.mwdevs.capstone.FirstFragment"
+        android:name="com.mwdevs.capstone.coins.presentation.BookListFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_first">
 
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.mwdevs.capstone.SecondFragment"
+        android:name="com.mwdevs.capstone.coins.presentation.BookDetailFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_second">
 

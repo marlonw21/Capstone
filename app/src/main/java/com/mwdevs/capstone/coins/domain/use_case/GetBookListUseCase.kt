@@ -5,13 +5,13 @@ import com.mwdevs.capstone.R
 import com.mwdevs.capstone.coins.data.remote.model.Payload
 import com.mwdevs.capstone.coins.data.remote.model.ResponseModel
 import com.mwdevs.capstone.coins.domain.model.CoinUIModel
+import com.mwdevs.capstone.coins.domain.repository.BooksRepository
 import com.mwdevs.capstone.utils.APIServiceBuilder
 import com.mwdevs.capstone.utils.retrofit.models.ResponseHandler
 
-class GetBookListUseCase {
-    val repo = APIServiceBuilder()
+class GetBookListUseCase(private val repository: BooksRepository) {
     suspend operator fun invoke(): ResponseHandler<List<CoinUIModel>?>{
-        val response = repo.getTest()
+        val response = repository.getBooks()
         if (response is ResponseHandler.Success){
             return ResponseHandler.Success(
                 data = ResponseModel(
@@ -19,6 +19,7 @@ class GetBookListUseCase {
                     successBody = mapToUiModel(response)
                 )
             )
+
         }
         return ResponseHandler.Error(
             data = ResponseModel(

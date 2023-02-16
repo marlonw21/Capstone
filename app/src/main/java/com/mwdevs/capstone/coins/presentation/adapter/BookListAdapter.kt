@@ -8,11 +8,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mwdevs.capstone.R
-import com.mwdevs.capstone.coins.data.remote.model.Payload
 import com.mwdevs.capstone.coins.domain.model.CoinUIModel
 import com.mwdevs.capstone.databinding.BookItemBinding
 import com.mwdevs.capstone.utils.animation.clickListenerWithAnimation
-import com.mwdevs.capstone.utils.getDrawableLogo
 
 class BookListAdapter(
     private val onClick: (String) -> Unit

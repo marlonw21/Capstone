@@ -1,4 +1,4 @@
-package com.mwdevs.capstone
+package com.mwdevs.capstone.coins.presentation
 
 import android.os.Bundle
 import android.util.Log
@@ -6,22 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.liveData
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.mwdevs.capstone.coins.data.remote.model.Payload
-import com.mwdevs.capstone.coins.data.remote.model.ResponseModel
-import com.mwdevs.capstone.coins.domain.model.CoinUIModel
-import com.mwdevs.capstone.coins.domain.use_case.GetBookListUseCase
+import com.mwdevs.capstone.R
 import com.mwdevs.capstone.coins.presentation.adapter.BookListAdapter
+import com.mwdevs.capstone.coins.presentation.viewModel.BookListViewModel
 import com.mwdevs.capstone.databinding.FragmentFirstBinding
-import com.mwdevs.capstone.utils.APIServiceBuilder
 import com.mwdevs.capstone.utils.retrofit.models.ResponseHandler
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class FirstFragment : Fragment() {
+class BookListFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
 
@@ -29,6 +25,7 @@ class FirstFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
     private lateinit var  adapter: BookListAdapter
+    private val vModel: BookListViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,21 +47,13 @@ class FirstFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.rvCoinsList.adapter = adapter
-        val repo = GetBookListUseCase()
-        val responseLiveData: LiveData<ResponseHandler<List<CoinUIModel>?>> = liveData{
-            emit(repo.invoke())
-        }
-        responseLiveData.observe(viewLifecycleOwner){
-            Log.e("response", it?.toString() ?: "error")
-            when (it){
-                is ResponseHandler.Success ->{
-                    Log.e("successs", it.data?.successBody.toString())
-                }
-                is ResponseHandler.Error ->{
-
-                }
+        vModel.getBooks()
+        vModel.bookList.observe(viewLifecycleOwner){ response ->
+            when(response){
+                is ResponseHandler.Success -> adapter.submitList(response.data?.successBody)
+                is ResponseHandler.Error -> Log.e("Error", response.data?.errorBody?.toString() ?: "-")
             }
-            adapter.submitList(it.data?.successBody)
+
         }
     }
 
