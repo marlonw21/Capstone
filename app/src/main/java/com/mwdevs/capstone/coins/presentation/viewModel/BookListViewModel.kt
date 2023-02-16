@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mwdevs.capstone.coins.data.repository.BooksRepositoryImpl
 import com.mwdevs.capstone.coins.domain.model.CoinUIModel
 import com.mwdevs.capstone.coins.domain.use_case.GetBookListUseCase
 import com.mwdevs.capstone.utils.retrofit.models.ResponseHandler

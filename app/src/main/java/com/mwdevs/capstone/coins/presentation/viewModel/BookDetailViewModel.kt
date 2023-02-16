@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mwdevs.capstone.coins.data.remote.model.TickerResponseDTO
-import com.mwdevs.capstone.coins.data.repository.BooksRepositoryImpl
 import com.mwdevs.capstone.coins.domain.model.AskBidsModel
 import com.mwdevs.capstone.coins.domain.use_case.GetBookDetailUseCase
 import com.mwdevs.capstone.coins.domain.use_case.GetTickerUseCase
