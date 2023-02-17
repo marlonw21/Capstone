@@ -2,6 +2,7 @@ package com.mwdevs.capstone.coins.di
 
 import android.app.Application
 import androidx.room.Room
+import com.mwdevs.capstone.coins.data.local.BooksDao
 import com.mwdevs.capstone.coins.data.local.BooksDatabase
 import dagger.Module
 import dagger.Provides
@@ -21,5 +22,10 @@ object LocalModule {
             BooksDatabase::class.java,
             "books.db"
         ).build()
+
+    @Singleton
+    @Provides
+    fun providesBooksDao(db: BooksDatabase): BooksDao = db.booksDao
+
 
 }

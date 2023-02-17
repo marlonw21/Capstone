@@ -9,5 +9,5 @@ import androidx.room.RoomDatabase
 )
 abstract class BooksDatabase: RoomDatabase() {
 
-    abstract val dao : BooksDao
+    abstract val booksDao : BooksDao
 }

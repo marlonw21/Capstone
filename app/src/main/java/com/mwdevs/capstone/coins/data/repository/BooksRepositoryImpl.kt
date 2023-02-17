@@ -1,5 +1,6 @@
 package com.mwdevs.capstone.coins.data.repository
 
+import com.mwdevs.capstone.coins.data.local.BooksDao
 import com.mwdevs.capstone.coins.data.local.BooksDatabase
 import com.mwdevs.capstone.coins.data.local.BooksEntity
 import com.mwdevs.capstone.coins.data.remote.BitsoServices
@@ -9,28 +10,26 @@ import com.mwdevs.capstone.coins.domain.repository.BooksRepository
 import com.mwdevs.capstone.utils.retrofit.RetrofitInstance
 import com.mwdevs.capstone.utils.retrofit.models.ResponseHandler
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class BooksRepositoryImpl @Inject constructor(
     private val api: BitsoServices,
-    private val db: BooksDatabase,
+    private val booksDao: BooksDao,
     private val dispatcher: CoroutineDispatcher
 ) : RetrofitInstance(), BooksRepository {
-    private val dao = db.dao
 
     override suspend fun getBooks(): ResponseHandler<List<BooksEntity>> = withContext(dispatcher){
         when (val response = callService { api.getAvailableBooks() }) {
             is ResponseHandler.Success -> {
                 response.data?.let { bookList ->
                     val booksEntities = bookList.map { it.toEntityModel() }
-                    dao.insertBooks(booksEntities)
+                    booksDao.insertBooks(booksEntities)
                 }
-                ResponseHandler.Success(dao.getBooks())
+                ResponseHandler.Success(booksDao.getBooks())
             }
             is ResponseHandler.Error -> {
-                val bookList = dao.getBooks()
+                val bookList = booksDao.getBooks()
                 ResponseHandler.Error(
                     data = bookList.ifEmpty { null },
                     errorMsg = response.errorMsg
@@ -40,9 +39,13 @@ class BooksRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getTicker(book: String): ResponseHandler<TickerResponseDTO> =
-        callService { api.getTicker(book) }
+        withContext(dispatcher) {
+            callService { api.getTicker(book) }
+        }
 
     override suspend fun getBookDetail(book: String): ResponseHandler<BookDetailsResponseDTO> =
-        callService { api.getBookDetail(book) }
+        withContext(dispatcher) {
+            callService { api.getBookDetail(book) }
+        }
 
 }
