@@ -8,7 +8,7 @@ import com.mwdevs.capstone.coins.data.remote.model.TickerResponseDTO
 import com.mwdevs.capstone.coins.domain.model.AskBidsModel
 import com.mwdevs.capstone.coins.domain.use_case.GetBookDetailUseCase
 import com.mwdevs.capstone.coins.domain.use_case.GetTickerUseCase
-import com.mwdevs.capstone.utils.retrofit.models.ResponseHandler
+import com.mwdevs.capstone.utils.models.ResponseHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

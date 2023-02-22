@@ -1,6 +1,8 @@
 package com.mwdevs.capstone.coins.data.remote.model
 
 import com.mwdevs.capstone.coins.domain.model.AskBidsModel
+import com.mwdevs.capstone.coins.utils.toAsksToUIModel
+import com.mwdevs.capstone.coins.utils.toBidsToUIModel
 
 data class BookDetailsResponseDTO(
     val asks: List<AskDTO>,
@@ -8,29 +10,7 @@ data class BookDetailsResponseDTO(
     val sequence: String,
     val updated_at: String
 ){
-    fun asksToUIModel(): List<AskBidsModel> {
-        val asks = mutableListOf<AskBidsModel>()
-        this.asks.map { ask ->
-            asks.add(
-                AskBidsModel(
-                    amount = ask.amount,
-                    price = ask.price
-                )
-            )
-        }
-        return asks.toList()
-    }
+    fun asksToUIModel(): List<AskBidsModel> = asks.map { it.toAsksToUIModel() }
 
-    fun bidsToUIModel(): List<AskBidsModel> {
-        val newBids = mutableListOf<AskBidsModel>()
-        bids.forEach { ask ->
-            newBids.add(
-                AskBidsModel(
-                    amount = ask.amount,
-                    price = ask.price
-                )
-            )
-        }
-        return newBids.toList()
-    }
+    fun bidsToUIModel(): List<AskBidsModel> = bids.map { it.toBidsToUIModel() }
 }

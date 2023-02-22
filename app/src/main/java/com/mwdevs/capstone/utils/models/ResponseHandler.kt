@@ -1,4 +1,4 @@
-package com.mwdevs.capstone.utils.retrofit.models
+package com.mwdevs.capstone.utils.models
 
 sealed class ResponseHandler<T>(val data: T?=null, val errorMsg: String?= null){
     class Success<T>(data: T): ResponseHandler<T>(data)

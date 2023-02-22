@@ -12,7 +12,7 @@ import com.mwdevs.capstone.R
 import com.mwdevs.capstone.coins.presentation.adapter.BookListAdapter
 import com.mwdevs.capstone.coins.presentation.viewModel.BookListViewModel
 import com.mwdevs.capstone.databinding.FragmentFirstBinding
-import com.mwdevs.capstone.utils.retrofit.models.ResponseHandler
+import com.mwdevs.capstone.utils.models.ResponseHandler
 import dagger.hilt.android.AndroidEntryPoint
 
 /**

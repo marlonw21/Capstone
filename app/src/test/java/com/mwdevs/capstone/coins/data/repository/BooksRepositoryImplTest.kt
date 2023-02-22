@@ -1,12 +1,11 @@
 package com.mwdevs.capstone.coins.data.repository
 
 import com.mwdevs.capstone.coins.data.local.BooksDao
-import com.mwdevs.capstone.coins.data.local.BooksDatabase
 import com.mwdevs.capstone.coins.data.local.BooksEntity
 import com.mwdevs.capstone.coins.data.remote.BitsoServices
 import com.mwdevs.capstone.coins.data.remote.model.BookDTO
 import com.mwdevs.capstone.coins.data.remote.model.ResponseModel
-import com.mwdevs.capstone.utils.retrofit.models.ResponseHandler
+import com.mwdevs.capstone.utils.models.ResponseHandler
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.RelaxedMockK

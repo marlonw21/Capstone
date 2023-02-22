@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mwdevs.capstone.coins.domain.model.CoinUIModel
 import com.mwdevs.capstone.coins.domain.use_case.GetBookListUseCase
-import com.mwdevs.capstone.utils.retrofit.models.ResponseHandler
+import com.mwdevs.capstone.utils.models.ResponseHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

@@ -1,10 +1,9 @@
 package com.mwdevs.capstone.coins.presentation.viewModel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.mwdevs.capstone.coins.data.local.BooksEntity
 import com.mwdevs.capstone.coins.domain.model.CoinUIModel
 import com.mwdevs.capstone.coins.domain.use_case.GetBookListUseCase
-import com.mwdevs.capstone.utils.retrofit.models.ResponseHandler
+import com.mwdevs.capstone.utils.models.ResponseHandler
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.RelaxedMockK

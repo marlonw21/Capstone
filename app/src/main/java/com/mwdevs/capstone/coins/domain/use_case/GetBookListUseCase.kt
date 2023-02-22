@@ -5,11 +5,11 @@ import com.mwdevs.capstone.R
 import com.mwdevs.capstone.coins.data.local.BooksEntity
 import com.mwdevs.capstone.coins.domain.model.CoinUIModel
 import com.mwdevs.capstone.coins.domain.repository.BooksRepository
-import com.mwdevs.capstone.utils.retrofit.models.ResponseHandler
+import com.mwdevs.capstone.utils.models.ResponseHandler
 import javax.inject.Inject
 
 class GetBookListUseCase @Inject constructor(private val repository: BooksRepository) {
-    suspend operator fun invoke(): ResponseHandler<List<CoinUIModel>?>{
+    suspend operator fun invoke(): ResponseHandler<List<CoinUIModel>?> {
         val response = repository.getBooks()
         if (response is ResponseHandler.Success){
             return ResponseHandler.Success(

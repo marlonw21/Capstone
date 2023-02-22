@@ -1,14 +1,14 @@
 package com.mwdevs.capstone.coins.domain.use_case
 
+import com.google.common.truth.Truth.assertThat
 import com.mwdevs.capstone.coins.data.local.BooksEntity
 import com.mwdevs.capstone.coins.domain.repository.BooksRepository
-import com.mwdevs.capstone.utils.retrofit.models.ResponseHandler
+import com.mwdevs.capstone.utils.models.ResponseHandler
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.unmockkAll
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
@@ -38,7 +38,7 @@ class GetBookListUseCaseTest{
         val response = booksRepository.getBooks()
 
         //Then
-        assert(response == listSuccess)
+        assertThat(response).isEqualTo(listSuccess)
     }
 
     @Test
