@@ -10,6 +10,7 @@ import com.mwdevs.capstone.coins.data.remote.model.TickerResponseDTO
 import com.mwdevs.capstone.coins.domain.repository.BooksRepository
 import com.mwdevs.capstone.coins.utils.toEntityModel
 import com.mwdevs.capstone.utils.models.ResponseHandler
+import io.reactivex.Observable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
@@ -41,10 +42,9 @@ class BooksRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getTicker(book: String): ResponseHandler<TickerResponseDTO> =
-        withContext(dispatcher) {
-            callService { api.getTicker(book) }
-        }
+    override fun getTicker(book: String): Observable<ResponseModel<TickerResponseDTO>> =
+        api.getTicker(book)
+
 
     override suspend fun getBookDetail(book: String): ResponseHandler<BookDetailsResponseDTO> =
         withContext(dispatcher) {

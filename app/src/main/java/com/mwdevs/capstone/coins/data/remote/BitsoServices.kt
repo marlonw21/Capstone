@@ -4,6 +4,7 @@ import com.mwdevs.capstone.coins.data.remote.model.BookDetailsResponseDTO
 import com.mwdevs.capstone.coins.data.remote.model.BookDTO
 import com.mwdevs.capstone.coins.data.remote.model.ResponseModel
 import com.mwdevs.capstone.coins.data.remote.model.TickerResponseDTO
+import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -17,7 +18,7 @@ interface BitsoServices {
     ): ResponseModel<BookDetailsResponseDTO>
 
     @GET("ticker/")
-    suspend fun getTicker(
+    fun getTicker(
         @Query("book") book: String
-    ): ResponseModel<TickerResponseDTO>
+    ): Observable<ResponseModel<TickerResponseDTO>>
 }
