@@ -8,9 +8,13 @@ import com.mwdevs.capstone.coins.data.remote.model.BookDetailsResponseDTO
 import com.mwdevs.capstone.coins.data.remote.model.ResponseModel
 import com.mwdevs.capstone.coins.data.remote.model.TickerResponseDTO
 import com.mwdevs.capstone.coins.domain.repository.BooksRepository
+import com.mwdevs.capstone.coins.utils.CapstoneSchedulers
 import com.mwdevs.capstone.coins.utils.toEntityModel
 import com.mwdevs.capstone.utils.models.ResponseHandler
 import io.reactivex.Observable
+import io.reactivex.ObservableSource
+import io.reactivex.Observer
+import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
@@ -20,7 +24,8 @@ import javax.inject.Inject
 class BooksRepositoryImpl @Inject constructor(
     private val api: BitsoServices,
     private val booksDao: BooksDao,
-    private val dispatcher: CoroutineDispatcher
+    private val dispatcher: CoroutineDispatcher,
+    private val scheduler: CapstoneSchedulers
 ): BooksRepository {
 
     override suspend fun getBooks(): ResponseHandler<List<BooksEntity>> = withContext(dispatcher){
@@ -42,8 +47,14 @@ class BooksRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getTicker(book: String): Observable<ResponseModel<TickerResponseDTO>> =
-        api.getTicker(book)
+    override fun getTicker(book: String): Observable<ResponseHandler<TickerResponseDTO>>{
+        val response = api.getTicker(book)
+        return response.map {
+            it.successBody?.let { tickerResponse ->
+                ResponseHandler.Success(data = tickerResponse)
+            } ?: ResponseHandler.Error(errorMsg = it.errorBody?.message)
+        }.subscribeOn(scheduler.io)
+    }
 
 
     override suspend fun getBookDetail(book: String): ResponseHandler<BookDetailsResponseDTO> =

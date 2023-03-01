@@ -9,6 +9,6 @@ import io.reactivex.Observable
 
 interface BooksRepository {
     suspend fun getBooks(): ResponseHandler<List<BooksEntity>>
-    fun getTicker(book: String): Observable<ResponseModel<TickerResponseDTO>>
+    fun getTicker(book: String): Observable<ResponseHandler<TickerResponseDTO>>
     suspend fun getBookDetail(book: String): ResponseHandler<BookDetailsResponseDTO>
 }
