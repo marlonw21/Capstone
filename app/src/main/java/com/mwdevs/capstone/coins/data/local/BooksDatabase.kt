@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
     entities = [BooksEntity::class],
     version = 1
 )
-abstract class BooksDatabase: RoomDatabase() {
+abstract class BooksDatabase : RoomDatabase() {
 
-    abstract val booksDao : BooksDao
+    abstract val booksDao: BooksDao
 }

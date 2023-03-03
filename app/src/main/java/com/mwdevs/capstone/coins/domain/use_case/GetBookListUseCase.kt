@@ -11,14 +11,13 @@ import javax.inject.Inject
 class GetBookListUseCase @Inject constructor(private val repository: BooksRepository) {
     suspend operator fun invoke(): ResponseHandler<List<CoinUIModel>?> {
         val response = repository.getBooks()
-        if (response is ResponseHandler.Success){
+        if (response is ResponseHandler.Success) {
             return ResponseHandler.Success(
 //                data = ResponseModel(
 //                    success = response.data?.success == true,
-                   mapToUiModel(response)
+                mapToUiModel(response)
 //                )
             )
-
         }
         return ResponseHandler.Error(
             data = mapToUiModel(response)?.ifEmpty { null },
@@ -26,14 +25,14 @@ class GetBookListUseCase @Inject constructor(private val repository: BooksReposi
         )
     }
 
-    private fun mapToUiModel(response: ResponseHandler<List<BooksEntity>>): List<CoinUIModel>?{
+    private fun mapToUiModel(response: ResponseHandler<List<BooksEntity>>): List<CoinUIModel>? {
         return response.data?.take(29)?.map { model ->
             try {
                 CoinUIModel(
                     id = model.book,
                     coinResource = getCoinResource(BooksEnum.valueOf(model.book))
                 )
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 Log.e("Exception", e.message.toString())
                 CoinUIModel(
                     id = model.book,
@@ -45,7 +44,7 @@ class GetBookListUseCase @Inject constructor(private val repository: BooksReposi
 }
 
 fun getCoinResource(value: BooksEnum): Map<Int, List<Int>> =
-    when (value){
+    when (value) {
         BooksEnum.btc_mxn -> mapOf(R.string.btc_name to listOf(R.drawable.ic_bitcoin_logo, R.drawable.ic_flag_mexico))
         BooksEnum.eth_btc -> mapOf(R.string.eth_name to listOf(R.drawable.ic_ethereum_logo, R.drawable.ic_bitcoin_logo))
         BooksEnum.eth_mxn -> mapOf(R.string.eth_name to listOf(R.drawable.ic_ethereum_logo, R.drawable.ic_flag_mexico))
@@ -77,9 +76,9 @@ fun getCoinResource(value: BooksEnum): Map<Int, List<Int>> =
         BooksEnum.mana_usd -> mapOf(R.string.mana_name to listOf(R.drawable.ic_mana_logo, R.drawable.ic_flag_usa))
         BooksEnum.ltc_usd -> mapOf(R.string.ltc_name to listOf(R.drawable.ic_litecoin_logo, R.drawable.ic_flag_usa))
         BooksEnum.ltc_mxn -> mapOf(R.string.ltc_name to listOf(R.drawable.ic_litecoin_logo, R.drawable.ic_flag_mexico))
-        else-> mapOf(R.string.unknown to  listOf(R.drawable.ic_help_not_found, R.drawable.ic_help_not_found))
+        else -> mapOf(R.string.unknown to listOf(R.drawable.ic_help_not_found, R.drawable.ic_help_not_found))
     }
-enum class BooksEnum{
+enum class BooksEnum {
     btc_mxn,
     eth_btc,
     eth_mxn,
@@ -107,7 +106,7 @@ enum class BooksEnum{
     btc_brl,
     eth_ars,
     eth_brl,
-    btc_usd,// usdt -> Tether
+    btc_usd, // usdt -> Tether
     usd_mxn,
     usd_ars,
     btc_usdt,
@@ -117,4 +116,3 @@ enum class BooksEnum{
     ltc_usd,
     ltc_mxn;
 }
-

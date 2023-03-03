@@ -25,8 +25,4 @@ object CoinsModule {
     @Singleton
     @Provides
     fun provideGetBookDetailUseCase(repository: BooksRepository): GetBookDetailUseCase = GetBookDetailUseCase(repository)
-
-
-
-
 }

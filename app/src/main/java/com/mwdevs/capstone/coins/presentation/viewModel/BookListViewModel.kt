@@ -17,11 +17,11 @@ class BookListViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _bookList = MutableLiveData<ResponseHandler<List<CoinUIModel>?>>()
-    val bookList:LiveData<ResponseHandler<List<CoinUIModel>?>> = _bookList
+    val bookList: LiveData<ResponseHandler<List<CoinUIModel>?>> = _bookList
 
     fun getBooks() {
         viewModelScope.launch {
-            when(val response = getBooks.invoke()){
+            when (val response = getBooks.invoke()) {
                 is ResponseHandler.Error -> _bookList.postValue(response)
                 is ResponseHandler.Success -> _bookList.postValue(response)
             }

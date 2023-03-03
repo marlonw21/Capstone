@@ -19,7 +19,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class BookListViewModelTest{
+class BookListViewModelTest {
 
     @RelaxedMockK
     private lateinit var getBookListUseCase: GetBookListUseCase
@@ -31,70 +31,71 @@ class BookListViewModelTest{
     var rule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Before
-    fun onBefore(){
+    fun onBefore() {
         MockKAnnotations.init(this)
         bookListViewModel = BookListViewModel(getBookListUseCase)
         Dispatchers.setMain(Dispatchers.Unconfined)
     }
 
     @After
-    fun onAfter(){
+    fun onAfter() {
         unmockkAll()
         Dispatchers.resetMain()
     }
 
     @Test
-    fun `when getBook method is called, get the list of books from database`() = runTest{
-        //Given
-        val booksList = listOf(CoinUIModel(
-             id = "",
-            coinResource = mapOf(0 to listOf(0)),
+    fun `when getBook method is called, get the list of books from database`() = runTest {
+        // Given
+        val booksList = listOf(
+            CoinUIModel(
+                id = "",
+                coinResource = mapOf(0 to listOf(0)),
             )
         )
         coEvery { getBookListUseCase() } returns ResponseHandler.Success(booksList)
 
-        //When
+        // When
         bookListViewModel.getBooks()
 
-
-        //Then
+        // Then
         assert(bookListViewModel.bookList.value?.data == booksList)
         assert(bookListViewModel.bookList.value is ResponseHandler.Success)
     }
 
     @Test
-    fun `when getBooks method return an Error, verify if data is not null`(){
-        //Given
-        val booksList = listOf(CoinUIModel(
-            id = "",
-            coinResource = mapOf(0 to listOf(0)),
-        )
+    fun `when getBooks method return an Error, verify if data is not null`() {
+        // Given
+        val booksList = listOf(
+            CoinUIModel(
+                id = "",
+                coinResource = mapOf(0 to listOf(0)),
+            )
         )
         coEvery { getBookListUseCase() } returns ResponseHandler.Error(
             data = booksList,
             errorMsg = "Error msg"
         )
 
-        //When
+        // When
         bookListViewModel.getBooks()
 
-        //Then
+        // Then
         assert(bookListViewModel.bookList.value?.data?.isNotEmpty() == true)
         assert(bookListViewModel.bookList.value is ResponseHandler.Error)
     }
 
     @Test
-    fun `when getBooks method return an Error, verify if data is null`(){
-        //Given
+    fun `when getBooks method return an Error, verify if data is null`() {
+        // Given
         coEvery { getBookListUseCase() } returns ResponseHandler.Error(
             data = null,
             errorMsg = "Error msg"
         )
 
-        //When
+        // When
         bookListViewModel.getBooks()
 
-        //Then
+        // Then
         assert(bookListViewModel.bookList.value?.data == null)
         assert(bookListViewModel.bookList.value is ResponseHandler.Error)
     }

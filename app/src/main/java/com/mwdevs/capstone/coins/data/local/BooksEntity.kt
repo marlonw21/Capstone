@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class BooksEntity(
-    @PrimaryKey val id: Int?=null,
+    @PrimaryKey val id: Int? = null,
     val book: String,
     var coinName: String?,
     val maximum_amount: String,

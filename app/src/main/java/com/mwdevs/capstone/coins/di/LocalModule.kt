@@ -26,6 +26,4 @@ object LocalModule {
     @Singleton
     @Provides
     fun providesBooksDao(db: BooksDatabase): BooksDao = db.booksDao
-
-
 }

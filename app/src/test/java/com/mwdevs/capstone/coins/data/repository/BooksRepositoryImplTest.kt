@@ -19,7 +19,7 @@ import org.junit.Before
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class BooksRepositoryImplTest{
+class BooksRepositoryImplTest {
 
     private lateinit var sut: BooksRepositoryImpl
 
@@ -31,10 +31,8 @@ class BooksRepositoryImplTest{
     @RelaxedMockK
     private lateinit var booksServices: BitsoServices
 
-
-
     @Before
-    fun onBefore(){
+    fun onBefore() {
         dispatcher = UnconfinedTestDispatcher()
         MockKAnnotations.init(this)
         sut = BooksRepositoryImpl(
@@ -45,11 +43,25 @@ class BooksRepositoryImplTest{
     }
 
     @Test
-    fun `when api get books successfully and successfully stored in database return book entities from database`()= runTest{
-        //Given
+    fun `when api get books successfully and successfully stored in database return book entities from database`() = runTest {
+        // Given
         val apiResponse = ResponseModel(
             success = true,
-            successBody = listOf(BookDTO(
+            successBody = listOf(
+                BookDTO(
+                    book = "",
+                    coinName = "",
+                    maximum_amount = "",
+                    maximum_value = "",
+                    maximum_price = "",
+                    minimum_amount = "",
+                    minimum_price = "",
+                    minimum_value = ""
+                )
+            )
+        )
+        val valuesFromDB = listOf(
+            BooksEntity(
                 book = "",
                 coinName = "",
                 maximum_amount = "",
@@ -58,25 +70,15 @@ class BooksRepositoryImplTest{
                 minimum_amount = "",
                 minimum_price = "",
                 minimum_value = ""
-            ))
+            )
         )
-        val valuesFromDB = listOf(BooksEntity(
-            book = "",
-            coinName = "",
-            maximum_amount = "",
-            maximum_value = "",
-            maximum_price = "",
-            minimum_amount = "",
-            minimum_price = "",
-            minimum_value = ""
-        ))
         coEvery { booksServices.getAvailableBooks() } returns apiResponse
         coEvery { booksDao.getBooks() } returns valuesFromDB
 
-        //When
+        // When
         val response = sut.getBooks()
 
-        //Then
+        // Then
         assert(response.data == valuesFromDB)
         assert(response is ResponseHandler.Success)
     }

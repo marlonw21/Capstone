@@ -1,7 +1,7 @@
 package com.mwdevs.capstone.coins.data.remote
 
-import com.mwdevs.capstone.coins.data.remote.model.BookDetailsResponseDTO
 import com.mwdevs.capstone.coins.data.remote.model.BookDTO
+import com.mwdevs.capstone.coins.data.remote.model.BookDetailsResponseDTO
 import com.mwdevs.capstone.coins.data.remote.model.ResponseModel
 import com.mwdevs.capstone.coins.data.remote.model.TickerResponseDTO
 import io.reactivex.Observable

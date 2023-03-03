@@ -28,7 +28,7 @@ class BookDetailViewModel @Inject constructor(
     private val _bidsModel = MutableLiveData<List<AskBidsModel>?>()
     val bidsModel: LiveData<List<AskBidsModel>?> = _bidsModel
     private val _tickerModel =
-        MutableLiveData<ResponseHandler<TickerResponseDTO>>() //TODO falta el model de UI
+        MutableLiveData<ResponseHandler<TickerResponseDTO>>() // TODO falta el model de UI
     val tickerModel: LiveData<ResponseHandler<TickerResponseDTO>> = _tickerModel
     private val _errorHandler = MutableLiveData<String?>()
     val errorHandler: LiveData<String?> = _errorHandler
@@ -47,8 +47,8 @@ class BookDetailViewModel @Inject constructor(
     fun getBookDetail(book: String) {
         viewModelScope.launch {
             when (val response = getBookDetail.invoke(book)) {
-                //First element always will be ASKS
-                //Second element always will be BIDS
+                // First element always will be ASKS
+                // Second element always will be BIDS
                 is ResponseHandler.Success -> {
                     _asksModel.postValue(response.data?.first)
                     _bidsModel.postValue(response.data?.second)
@@ -63,4 +63,3 @@ class BookDetailViewModel @Inject constructor(
         super.onCleared()
     }
 }
-

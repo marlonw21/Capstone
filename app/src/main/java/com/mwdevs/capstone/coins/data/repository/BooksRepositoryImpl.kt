@@ -12,9 +12,6 @@ import com.mwdevs.capstone.coins.utils.CapstoneSchedulers
 import com.mwdevs.capstone.coins.utils.toEntityModel
 import com.mwdevs.capstone.utils.models.ResponseHandler
 import io.reactivex.Observable
-import io.reactivex.ObservableSource
-import io.reactivex.Observer
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
@@ -26,9 +23,9 @@ class BooksRepositoryImpl @Inject constructor(
     private val booksDao: BooksDao,
     private val dispatcher: CoroutineDispatcher,
     private val scheduler: CapstoneSchedulers
-): BooksRepository {
+) : BooksRepository {
 
-    override suspend fun getBooks(): ResponseHandler<List<BooksEntity>> = withContext(dispatcher){
+    override suspend fun getBooks(): ResponseHandler<List<BooksEntity>> = withContext(dispatcher) {
         when (val response = callService { api.getAvailableBooks() }) {
             is ResponseHandler.Success -> {
                 response.data?.let { bookList ->
@@ -47,7 +44,7 @@ class BooksRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getTicker(book: String): Observable<ResponseHandler<TickerResponseDTO>>{
+    override fun getTicker(book: String): Observable<ResponseHandler<TickerResponseDTO>> {
         val response = api.getTicker(book)
         return response.map {
             it.successBody?.let { tickerResponse ->
@@ -55,7 +52,6 @@ class BooksRepositoryImpl @Inject constructor(
             } ?: ResponseHandler.Error(errorMsg = it.errorBody?.message)
         }.subscribeOn(scheduler.io)
     }
-
 
     override suspend fun getBookDetail(book: String): ResponseHandler<BookDetailsResponseDTO> =
         withContext(dispatcher) {
@@ -66,7 +62,7 @@ class BooksRepositoryImpl @Inject constructor(
         cb: () -> ResponseModel<T>
     ): ResponseHandler<T> {
         return try {
-            val response =  cb.invoke()
+            val response = cb.invoke()
             response.let {
                 if (it.success && it.successBody != null)
                     ResponseHandler.Success(
@@ -82,22 +78,18 @@ class BooksRepositoryImpl @Inject constructor(
             ResponseHandler.Error(
                 errorMsg = e.message
             )
-        }
-        catch (e: HttpException){
+        } catch (e: HttpException) {
             ResponseHandler.Error(
                 errorMsg = e.message
             )
-        }
-        catch (e: JsonSyntaxException){
+        } catch (e: JsonSyntaxException) {
             ResponseHandler.Error(
                 errorMsg = e.message
             )
-        }
-        catch (e: UnknownHostException){
+        } catch (e: UnknownHostException) {
             ResponseHandler.Error(
                 errorMsg = e.message
             )
         }
     }
-
 }

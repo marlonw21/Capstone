@@ -1,6 +1,5 @@
 package com.mwdevs.capstone.coins.presentation
 
-
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.mwdevs.capstone.databinding.ActivityMainBinding

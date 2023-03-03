@@ -1,7 +1,5 @@
 package com.mwdevs.capstone.coins.data.remote.model
 
-import com.mwdevs.capstone.coins.data.local.BooksEntity
-
 data class BookDTO(
     val book: String,
     var coinName: String,

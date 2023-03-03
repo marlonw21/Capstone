@@ -27,11 +27,12 @@ class BookListFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    private lateinit var  adapter: BookListAdapter
+    private lateinit var adapter: BookListAdapter
     private val vModel: BookListViewModel by activityViewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
@@ -39,9 +40,12 @@ class BookListFragment : Fragment() {
         adapter = BookListAdapter {
             Log.e("click", it)
             findNavController()
-                .navigate(R.id.action_FirstFragment_to_SecondFragment, Bundle().apply {
-                    this.putString("book", it)
-                })
+                .navigate(
+                    R.id.action_FirstFragment_to_SecondFragment,
+                    Bundle().apply {
+                        this.putString("book", it)
+                    }
+                )
         }
         return binding.root
     }
@@ -51,8 +55,8 @@ class BookListFragment : Fragment() {
 
         binding.rvCoinsList.adapter = adapter
         vModel.getBooks()
-        vModel.bookList.observe(viewLifecycleOwner){ response ->
-            when(response){
+        vModel.bookList.observe(viewLifecycleOwner) { response ->
+            when (response) {
                 is ResponseHandler.Success -> adapter.submitList(response.data)
                 is ResponseHandler.Error -> {
                     response.data?.let {
@@ -61,7 +65,6 @@ class BookListFragment : Fragment() {
                     Log.e("Error", response.errorMsg ?: "-")
                 }
             }
-
         }
     }
 

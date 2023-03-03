@@ -4,5 +4,5 @@ import io.reactivex.Scheduler
 
 interface CapstoneSchedulers {
     val main: Scheduler
-    val io : Scheduler
+    val io: Scheduler
 }

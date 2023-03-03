@@ -22,12 +22,10 @@ object DispatcherModule {
 
     @Singleton
     @Provides
-    fun provideCapstoneScheduler(): CapstoneSchedulers = object : CapstoneSchedulers{
+    fun provideCapstoneScheduler(): CapstoneSchedulers = object : CapstoneSchedulers {
         override val main: Scheduler
             get() = AndroidSchedulers.mainThread()
         override val io: Scheduler
             get() = Schedulers.io()
-
     }
-
 }

@@ -30,7 +30,8 @@ class BookDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
@@ -38,7 +39,6 @@ class BookDetailFragment : Fragment() {
         asksAdapter = AskBidsAdapter()
         bidsAdapter = AskBidsAdapter()
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,20 +53,19 @@ class BookDetailFragment : Fragment() {
         rvBidsList.adapter = bidsAdapter
     }
 
-    private fun callApi(){
+    private fun callApi() {
         vModel.getBookDetail(arguments?.getString("book") ?: "")
         vModel.getTicker(arguments?.getString("book") ?: "")
-
     }
 
-    private fun initObservers(){
-        vModel.bidsModel.observe(viewLifecycleOwner){
+    private fun initObservers() {
+        vModel.bidsModel.observe(viewLifecycleOwner) {
             bidsAdapter.submitList(it)
         }
-        vModel.askModel.observe(viewLifecycleOwner){
+        vModel.askModel.observe(viewLifecycleOwner) {
             asksAdapter.submitList(it)
         }
-        vModel.tickerModel.observe(viewLifecycleOwner){
+        vModel.tickerModel.observe(viewLifecycleOwner) {
             val responseData = it?.data
             binding.apply {
                 tvHighPrice.text = root.context.getString(R.string.highest_price_text, responseData?.high)
@@ -74,7 +73,7 @@ class BookDetailFragment : Fragment() {
                 tvLowestPrice.text = root.context.getString(R.string.lowest_price_text, responseData?.low)
             }
         }
-        vModel.errorHandler.observe(viewLifecycleOwner){
+        vModel.errorHandler.observe(viewLifecycleOwner) {
             it?.let {
                 Toast.makeText(requireContext(), binding.root.context.getString(R.string.general_error), Toast.LENGTH_SHORT).show()
             }

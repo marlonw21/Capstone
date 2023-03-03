@@ -9,7 +9,7 @@ data class BookDetailsResponseDTO(
     val bids: List<BidDTO>,
     val sequence: String,
     val updated_at: String
-){
+) {
     fun asksToUIModel(): List<AskBidsModel> = asks.map { it.toAsksToUIModel() }
 
     fun bidsToUIModel(): List<AskBidsModel> = bids.map { it.toBidsToUIModel() }

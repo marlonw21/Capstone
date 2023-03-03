@@ -1,6 +1,5 @@
 package com.mwdevs.capstone.coins.presentation.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
@@ -19,7 +18,6 @@ class BookListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(BookItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = with(getItem(position)) {
         holder.bind(this)
         Unit
@@ -33,7 +31,7 @@ class BookListAdapter(
             cardConstraintLayout.clickListenerWithAnimation(
                 defaultColor = R.color.waikawa_gray,
                 onClickColor = R.color.mirage
-            ){
+            ) {
                 onClick(model.id)
             }
         }
@@ -47,5 +45,3 @@ class DiffUtilCallback : DiffUtil.ItemCallback<CoinUIModel>() {
     override fun areContentsTheSame(oldItem: CoinUIModel, newItem: CoinUIModel): Boolean =
         oldItem == newItem
 }
-
-
