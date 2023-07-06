@@ -1,8 +1,6 @@
 package com.mwdevs.capstone.coins.data.remote.model
 
-import com.mwdevs.capstone.coins.domain.model.CoinUIModel
-
-data class Payload(
+data class BookDTO(
     val book: String,
     var coinName: String,
     val maximum_amount: String,
@@ -11,8 +9,4 @@ data class Payload(
     val minimum_amount: String,
     val minimum_price: String,
     val minimum_value: String
-){
-    fun toUiModel(){
-
-    }
-}
+)

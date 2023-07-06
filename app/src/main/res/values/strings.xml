@@ -29,5 +29,13 @@
     <string name="usd_name">USD</string>
     <string name="bat_name">BAT</string>
     <string name="unknown">Unknown</string>
+    <string name="general_error">"An Error Ocurred"</string>
+
+    <string name="amount_text">Amount: %1$s</string>
+    <string name="price_text">Price: %1$s</string>
+
+    <string name="highest_price_text">Highest Price: %1$s</string>
+    <string name="last_price_text">Last Price: %1$s</string>
+    <string name="lowest_price_text">Lowest Price: %1$s</string>
 
 </resources>

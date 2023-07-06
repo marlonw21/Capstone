@@ -4,50 +4,62 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mwdevs.capstone.coins.data.remote.model.ErrorBody
-import com.mwdevs.capstone.coins.data.remote.model.TickerResponse
-import com.mwdevs.capstone.coins.data.repository.BooksRepositoryImpl
+import com.mwdevs.capstone.coins.data.remote.model.TickerResponseDTO
 import com.mwdevs.capstone.coins.domain.model.AskBidsModel
 import com.mwdevs.capstone.coins.domain.use_case.GetBookDetailUseCase
 import com.mwdevs.capstone.coins.domain.use_case.GetTickerUseCase
-import com.mwdevs.capstone.utils.retrofit.models.ResponseHandler
+import com.mwdevs.capstone.coins.utils.CapstoneSchedulers
+import com.mwdevs.capstone.utils.models.ResponseHandler
+import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class BookDetailViewModel(
-    private val getTicker: GetTickerUseCase = GetTickerUseCase(BooksRepositoryImpl()),
-    private val getBookDetail: GetBookDetailUseCase = GetBookDetailUseCase(BooksRepositoryImpl())
-): ViewModel() {
+@HiltViewModel
+class BookDetailViewModel @Inject constructor(
+    private val getTicker: GetTickerUseCase,
+    private val getBookDetail: GetBookDetailUseCase,
+    private val scheduler: CapstoneSchedulers
+) : ViewModel() {
 
+    private val compositeDisposable = CompositeDisposable()
     private val _asksModel = MutableLiveData<List<AskBidsModel>?>()
-        val askModel: LiveData<List<AskBidsModel>?> = _asksModel
+    val askModel: LiveData<List<AskBidsModel>?> = _asksModel
     private val _bidsModel = MutableLiveData<List<AskBidsModel>?>()
-        val bidsModel: LiveData<List<AskBidsModel>?> = _bidsModel
-    private val _tickerModel = MutableLiveData<ResponseHandler<TickerResponse?>>() //TODO falta el model de UI
-        val tickerModel: LiveData<ResponseHandler<TickerResponse?>> = _tickerModel
-    private val _errorHandler = MutableLiveData<ErrorBody?>()
-        val errorHandler: LiveData<ErrorBody?> = _errorHandler
+    val bidsModel: LiveData<List<AskBidsModel>?> = _bidsModel
+    private val _tickerModel =
+        MutableLiveData<ResponseHandler<TickerResponseDTO>>() // TODO falta el model de UI
+    val tickerModel: LiveData<ResponseHandler<TickerResponseDTO>> = _tickerModel
+    private val _errorHandler = MutableLiveData<String?>()
+    val errorHandler: LiveData<String?> = _errorHandler
 
-    fun getTicker(book: String){
+    fun getTicker(book: String) {
+        val disposable = getTicker.invoke(book)
+            .observeOn(scheduler.main)
+            .subscribe({
+                _tickerModel.postValue(it)
+            }, {
+                _errorHandler.postValue(it.message)
+            })
+        compositeDisposable.add(disposable)
+    }
+
+    fun getBookDetail(book: String) {
         viewModelScope.launch {
-            when(val response = getTicker.invoke(book)){
-                is ResponseHandler.Success -> _tickerModel.postValue(response)
-                is ResponseHandler.Error ->  _errorHandler.postValue(response.data?.errorBody)
+            when (val response = getBookDetail.invoke(book)) {
+                // First element always will be ASKS
+                // Second element always will be BIDS
+                is ResponseHandler.Success -> {
+                    _asksModel.postValue(response.data?.first)
+                    _bidsModel.postValue(response.data?.second)
+                }
+                is ResponseHandler.Error -> _errorHandler.postValue(response.errorMsg)
             }
         }
     }
 
-    fun getBookDetail(book: String){
-        viewModelScope.launch {
-            when(val response = getBookDetail.invoke(book)){
-                //First element always will be ASKS
-                //Second element always will be BIDS
-                is ResponseHandler.Success -> {
-                    _asksModel.postValue(response.data?.successBody?.first)
-                    _bidsModel.postValue(response.data?.successBody?.second)
-                }
-                is ResponseHandler.Error -> _errorHandler.postValue(response.data?.errorBody)
-            }
-        }
+    override fun onCleared() {
+        compositeDisposable.clear()
+        super.onCleared()
     }
 }
-

@@ -6,13 +6,13 @@ data class ResponseModel<T>(
     @SerializedName("success")
     val success: Boolean,
     @SerializedName("error")
-    var errorBody: ErrorBody?= null,
+    var errorBody: ErrorBody? = null,
     @SerializedName("payload")
     var successBody: T?
 )
 data class ErrorBody(
     @SerializedName("code")
-    val code: String?= null,
+    val code: String? = null,
     @SerializedName("message")
-    val message: String?= null
+    val message: String? = null
 )

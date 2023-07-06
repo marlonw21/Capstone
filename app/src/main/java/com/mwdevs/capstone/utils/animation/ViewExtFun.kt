@@ -9,8 +9,8 @@ import com.mwdevs.capstone.R
 inline fun View.clickListenerWithAnimation(
     defaultColor: Int,
     onClickColor: Int,
-    crossinline cb: (View)->Unit
-){
+    crossinline cb: (View) -> Unit
+) {
     this.setOnClickListener {
         val animator = ObjectAnimator.ofArgb(
             this,
@@ -21,7 +21,7 @@ inline fun View.clickListenerWithAnimation(
         animator.duration = 200
         animator.repeatCount = 1
         animator.repeatMode = ObjectAnimator.REVERSE
-        animator.addListener(object : AnimatorListenerAdapter(){
+        animator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator?) {
                 this@clickListenerWithAnimation.isClickable = false
             }
